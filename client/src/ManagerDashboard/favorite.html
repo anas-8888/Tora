@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+      <title>Tora for Accounting</title>
+      <link rel="icon" type="image/x-icon" href="/ManagerDashboard/assets/img/image.png" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css">
+      <link href="/ManagerDashboard/css/styles.css" rel="stylesheet" />
+      <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+      <style>
+            #loading {
+                  position: fixed;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: 100%;
+                  height: 100%;
+                  top: 0;
+                  left: 0;
+                  opacity: 0.7;
+                  background-color: #fff;
+                  z-index: 99;
+            }
+
+            #loading-image {
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  /* Add your spinner styles (e.g., animation, size, color) */
+                  z-index: 100;
+            }
+
+
+            .modal {
+                  display: none;
+                  position: fixed;
+                  width: 100%;
+                  height: 100%;
+                  overflow: auto;
+                  background-color: rgba(0, 0, 0, 0.4);
+            }
+
+            /* Modal content */
+            .modal-content {
+                  margin: 15% auto;
+                  padding: 20px;
+                  border: 1px solid #888;
+                  width: 500px;
+            }
+
+            .closeModal {
+                  position: absolute;
+                  top: 10px;
+                  right: 25px;
+                  color: #aaa;
+                  font-size: 28px;
+                  font-weight: bold;
+            }
+
+            .closeModal:hover,
+            .closeModal:focus {
+                  color: black;
+                  text-decoration: none;
+                  cursor: pointer;
+            }
+      </style>
+</head>
+
+<body class="sb-nav-fixed" id="ManagerDashbiardTopPage">
+      <div id="loading">
+            <img src="https://argentinow.com/images/club/loading.gif" id="loading-image" height="30%">
+      </div>
+      <nav class="sb-topnav navbar navbar-expand navbar-light bg-white">
+            <!-- Navbar Brand-->
+            <button class="btn btn-link btn-sm order-lg-0 me-0 me-lg-0" id="sidebarToggle" href="#!">
+                  <i class="fas fa-bars" style="font-size:24px"></i></button>
+            <a class="navbar-brand" href="#ManagerDashbiardTopPage">
+                  <img src="/ManagerDashboard/assets/img/image.png" height="50" alt="TORA Logo" loading="lazy" />
+                  <b>
+                        for accounting
+                  </b>
+            </a>
+            <!-- Sidebar Toggle-->
+      </nav>
+      <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                  <nav class="sb-sidenav accordion sb-sidenav-white" id="sidenavAccordion">
+                        <div class="sb-sidenav-menu bg-white">
+                              <div class="nav">
+                                    <div class="sb-sidenav-menu-heading">Core</div>
+                                    <a class="nav-link text-dark" href="/manager-dashboard">
+                                          <div class="sb-nav-link-icon text-dark"><i class="fas fa-tachometer-alt"></i>
+                                          </div>
+                                          Manager dashboard
+                                    </a>
+                                    <div class="sb-sidenav-menu-heading">Personal</div>
+                                    <a class="nav-link text-dark" href="/manager-profile">
+                                          <div class="sb-nav-link-icon text-dark"><i class='fas fa-user-alt'></i></div>
+                                          Profile
+                                    </a>
+                                    <a class="nav-link text-dark" href="/manager-notifications">
+                                          <div class="sb-nav-link-icon text-dark"><i class='fas fa-bell'></i></div>
+                                          Notifications
+                                    </a>
+                                    <a class="nav-link text-dark" href="/manager-reminders">
+                                          <div class="sb-nav-link-icon text-dark"><i class='far fa-calendar-alt'></i>
+                                          </div>
+                                          Reminders
+                                    </a>
+                                    <a class="nav-link text-dark" href="/manager-favorite">
+                                          <div class="sb-nav-link-icon text-dark"><i class='fas fa-heart'></i></div>
+                                          Favorite
+                                    </a>
+                              </div>
+                              <div class="nav">
+                                    <div class="sb-sidenav-menu-heading">Review</div>
+                                    <a class="nav-link text-dark" href="/get-all-employee">
+                                          <div class="sb-nav-link-icon text-dark"><i class='fas fa-male'
+                                                      style='font-size:24px'></i>
+                                          </div>
+                                          All employees
+                                    </a>
+                                    <a class="nav-link text-dark" href="/get-all-client">
+                                          <div class="sb-nav-link-icon text-dark"><i class='fas fa-users'></i>
+                                          </div>
+                                          All client
+                                    </a>
+                              </div>
+                        </div>
+                        <div style="background-color: #fff;">
+                              <div class="nav">
+                                    <a class="nav-link text-dark" href="/logout">
+                                          <div class="sb-nav-link-icon"><i class="fa fa-sign-out"></i>&ensp;Logout</div>
+                                    </a>
+                              </div>
+                              <div class="sb-sidenav-footer text-dark">
+                                    <div class="small text-dark">Logged in at:
+                                          <div id="logDate"></div>
+                                    </div>
+                              </div>
+                        </div>
+                  </nav>
+            </div>
+            <div id="myModal1" class="modal">
+                  <div id="myModal1" class="modal-content bg-light">
+                        <span class="closeModal" style="width: 40px;">&times;</span>
+                        <div id="productsTablePrint">
+                              <div id="modalHeader">
+                                    <h2>Tora for accounting</h2>
+                                    <p>Date: <span id="billDate"></span></p>
+                                    <p>Bill ID: <span id="billId"></span></p>
+                              </div>
+                              <table id="productsTable" border="1" style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                          <tr>
+                                                <th>#</th>
+                                                <th>Name</th>
+                                                <th>Price</th>
+                                                <th>Number</th>
+                                                <th>Total</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                          <!-- Product rows will be inserted here -->
+                                    </tbody>
+                                    <tfoot>
+                                          <tr>
+                                                <td colspan="4" style="text-align: right;">Total:</td>
+                                                <td id="totalBillAmount"></td>
+                                          </tr>
+                                    </tfoot>
+                              </table>
+                        </div>
+                        <button id="printButton">Print</button>
+                  </div>
+            </div>
+            <div id="layoutSidenav_content">
+                  <div id="ManagerDashboard">
+                  </div>
+                  <main>
+                        <div class="container-fluid px-4">
+                              <div class="row">
+                                    <div class="col-xl-6 col-md-6">
+                                          <h1 class="mt-4">All bills</h1>
+                                    </div>
+                              </div>
+                        </div>
+                        <br />
+                        <div class="container-fluid px-4">
+                              <div class="card mb-4">
+                                    <div class="card-header">
+                                          <i class='fas fa-male' style='font-size:24px'></i>
+                                          All bills in this shop,
+                                          <a href="#!" id="printAllBills">
+                                                Print
+                                          </a>
+                                    </div>
+                                    <div class="card-body" id="myTableStyle">
+                                          <table id="myTable">
+                                                <thead>
+                                                      <tr>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        #
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Number
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Type
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Shop Name
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Payment type
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Date
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Writer name
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Client name
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Client phone
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        No. of product
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Total
+                                                                  </div>
+                                                            </th>
+                                                            <th></th>
+                                                            <th></th>
+                                                      </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                                <tfoot>
+                                                      <tr>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        #
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Number
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Type
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Shop Name
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Payment type
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Date
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Writer name
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Client name
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Client phone
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        No. of product
+                                                                  </div>
+                                                            </th>
+                                                            <th>
+                                                                  <div style="width: 150;"
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        Total
+                                                                  </div>
+                                                            </th>
+                                                            <th></th>
+                                                            <th></th>
+                                                      </tr>
+                                                </tfoot>
+                                          </table>
+                                    </div>
+                              </div>
+                        </div>
+                  </main>
+                  <br />
+                  <br />
+                  <div
+                        class="flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+                        <!-- Copyright -->
+                        <div class="text-white mb-3 mb-md-0">
+                              Copyright © 2024. All rights reserved for Tora co.
+                        </div>
+                        <!-- Copyright -->
+                  </div>
+            </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            crossorigin="anonymous"></script>
+
+      <script src="/ManagerDashboard/favorite.js"></script>
+      <script src="/ManagerDashboard/js/scripts.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Tora for Accounting</title>
+    <link rel="icon" type="image/x-icon" href="/ManagerDashboard/assets/img/image.png" />
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="/EmployeeDashboard/css/styles.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        #loading {
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0.7;
+            background-color: #fff;
+            z-index: 99;
+        }
+
+        #loading-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #0000003f;
+            height: 300px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #0000003f;
+        }
+
+        .trash-icon {
+            cursor: pointer;
+            color: red;
+        }
+
+        .no-sort::after {
+            display: none !important;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            .print-area,
+            .print-area * {
+                visibility: visible;
+            }
+        }
+
+        .print-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #0000FF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .print-btn:hover {
+            background-color: #5d7aca;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        input.form-control,
+        select.form-control {
+            width: 100%;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .total-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .total-container h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body class="sb-nav-fixed">
+
+    <body class="sb-nav-fixed" id="AccountantEmployeeDashboardTopPage">
+        <div id="loading" style="display: none;">
+            <img src="https://argentinow.com/images/club/loading.gif" id="loading-image" height="30%">
+        </div>
+        <nav class="sb-topnav navbar navbar-expand navbar-light bg-white">
+            <!-- Navbar Brand-->
+            <button class="btn btn-link btn-sm order-lg-0 me-0 me-lg-0" id="sidebarToggle" href="#!">
+                <i class="fas fa-bars" style="font-size:24px"></i></button>
+            <a class="navbar-brand" href="#EmployeeDashboardTopPage">
+                <img src="/ManagerDashboard/assets/img/image.png" height="50" alt="TORA Logo" loading="lazy" />
+                <b>
+                    for accounting
+                </b>
+            </a>
+            <!-- Sidebar Toggle-->
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-white" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu bg-white">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Core</div>
+                            <a class="nav-link text-dark" href="/accountant-employee-dashboard">
+                                <div class="sb-nav-link-icon text-dark"><i class="fas fa-tachometer-alt"></i></div>
+                                Accountant employee dashboard
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Personal</div>
+                            <a class="nav-link text-dark" href="/accountant-employee-dashboard/profile">
+                                <div class="sb-nav-link-icon text-dark"><i class='fas fa-user-alt'></i>
+                                </div>
+                                Profile
+                            </a>
+                            <a class="nav-link text-dark" href="/accountant-employee-dashboard/notifications">
+                                <div class="sb-nav-link-icon text-dark"><i class='fas fa-bell'></i>
+                                </div>
+                                Notifications
+                            </a>
+                            <a class="nav-link text-dark" href="/accountant-employee-dashboard/reminders">
+                                <div class="sb-nav-link-icon text-dark"><i class='far fa-calendar-alt'></i>
+                                </div>
+                                Reminders
+                            </a>
+                        </div>
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Work</div>
+                            <a class="nav-link text-dark" href="/accountant-employee-dashboard/sales-bills">
+                                <div class="sb-nav-link-icon text-dark"><i class='far fa-money-bill-alt'></i>
+                                </div>
+                                Add new sales bills
+                            </a>
+                            <a class="nav-link text-dark" href="/accountant-employee-dashboard/sales-return-bills">
+                                <div class="sb-nav-link-icon text-dark"><i class='far fa-money-bill-alt'></i>
+                                </div>
+                                Add new sales return bills
+                            </a>
+                            <a class="nav-link text-dark" href="/accountant-employee-dashboard/purchases-bills">
+                                <div class="sb-nav-link-icon text-dark"><i class='far fa-money-bill-alt'></i>
+                                </div>
+                                Add new purchases bills
+                            </a>
+                            <a class="nav-link text-dark" href="/accountant-employee-dashboard/purchases-return-bills">
+                                <div class="sb-nav-link-icon text-dark"><i class='far fa-money-bill-alt'></i>
+                                </div>
+                                Add new purchases return bills
+                            </a>
+                        </div>
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Review</div>
+                            <a class="nav-link text-dark" href="/accountant-employee-dashboard/all-bills">
+                                <div class="sb-nav-link-icon text-dark"><i class='far fa-money-bill-alt'></i>
+                                </div>
+                                All bills in this shop
+                            </a>
+                            <a class="nav-link text-dark" id="showAllProductsInThisShop" href="#!">
+                                <div class="sb-nav-link-icon text-dark"><i class='fas fa-box-open'></i>
+                                </div>
+                                All products in this shop
+                            </a>
+                            <script>
+                                document.getElementById('showAllProductsInThisShop').addEventListener('click', function () {
+                                    window.location.href = `/accountant-employee-dashboard/stores/${storeId}`;
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <div style="background-color: #fff;">
+                        <div class="nav">
+                            <a class="nav-link text-dark" href="/logout">
+                                <div class="sb-nav-link-icon"><i class="fa fa-sign-out"></i>&ensp;Logout
+                                </div>
+                            </a>
+                        </div>
+                        <div class="sb-sidenav-footer text-dark">
+                            <div class="small text-dark">Logged in at:
+                                <br />
+                                <div id="logDate"></div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <div class="container">
+                    <h1 class="mt-4">Add purchas bill</h1>
+                    <br />
+                    <div class="form-group">
+                        <select class="form-control" id="paymentType" required>
+                            <option value="Cash" selected>Cash</option>
+                            <option value="Debt">Debt</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="clientName" placeholder="Enter client name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="clientPhone" placeholder="Enter client phone">
+                    </div>
+                    <table id="productTable" class="datatable">
+                        <thead>
+                            <tr>
+                                <th class="no-sort">Action</th>
+                                <th class="no-sort">Barcode</th>
+                                <th class="no-sort">Name</th>
+                                <th class="no-sort">O-Price</th>
+                                <th class="no-sort">Quantity</th>
+                                <th class="no-sort">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><i class="fas fa-trash trash-icon" onclick="deleteRow(this)"></i></td>
+                                <td><input type="text" class="barcode form-control" onkeypress="handleKeyPress(event)">
+                                </td>
+                                <td><input type="text" class="name form-control" readonly></td>
+                                <td><input type="text" class="price form-control" oninput="updateTotal(this)">
+                                </td>
+                                <td><input type="number" class="quantity form-control" oninput="checkQuantity(this)">
+                                </td>
+                                <td><input type="text" class="total form-control" readonly></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th class="no-sort">Action</th>
+                                <th class="no-sort">Barcode</th>
+                                <th class="no-sort">Name</th>
+                                <th class="no-sort">O-Price</th>
+                                <th class="no-sort">Quantity</th>
+                                <th class="no-sort">Total</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <br />
+                    <br />
+                    <div class="buttons-container">
+                        <button class="print-btn" onclick="addWithPrint()">Add with Print</button>
+                        <button class="print-btn" onclick="addWithoutPrint()">Add without Print</button>
+                    </div>
+                    <div class="total-container">
+                        <h3 id="totalSumDiv"></h3>
+                    </div>
+                </div>
+
+                <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
+                <br />
+                <br />
+                <br />
+                <div
+                    class="flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+                    <!-- Copyright -->
+                    <div class="text-white mb-3 mb-md-0">
+                        Copyright © 2024. All rights reserved for Tora co.
+                    </div>
+                    <!-- Copyright -->
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
+        <script src="/EmployeeDashboard/js/scripts.js"></script>
+        <script src="/EmployeeDashboard/AccountantEmployee/AddPurchasesBills.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+            crossorigin="anonymous"></script>
+        <script>
+            document.getElementById('paymentType').addEventListener('change', function () {
+                var clientName = document.getElementById('clientName');
+                var clientPhone = document.getElementById('clientPhone');
+                if (this.value === 'Debt') {
+                    clientName.setAttribute('required', 'required');
+                    clientPhone.setAttribute('required', 'required');
+                } else {
+                    clientName.removeAttribute('required');
+                    clientPhone.removeAttribute('required');
+                }
+            });
+        </script>
+
+    </body>
+
+</html>

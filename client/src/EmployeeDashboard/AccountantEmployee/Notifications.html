@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Tora for Accounting</title>
+      <link rel="icon" type="image/x-icon" href="/ManagerDashboard/assets/img/image.png" />
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="/EmployeeDashboard/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        #loading {
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 80%;
+            top: 0;
+            left: 0;
+            opacity: 0.7;
+            background-color: #fff;
+            z-index: 99;
+        }
+
+        #loading-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Add your spinner styles (e.g., animation, size, color) */
+            z-index: 100;
+        }
+
+
+        .modal {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Modal content */
+        .modal-content {
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* Close button (X icon) */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: blue;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #handleError {
+            color: red;
+            /* Text color */
+            font-size: 0.8em;
+            /* Smaller font size */
+            display: none;
+            /* Hidden by default */
+        }
+    </style>
+</head>
+
+<body class="sb-nav-fixed" id="AccountantEmployeeDashboardTopPage">
+    <div id="loading" style="display: none;">
+        <img src="https://argentinow.com/images/club/loading.gif" id="loading-image" height="30%">
+    </div>
+    <nav class="sb-topnav navbar navbar-expand navbar-light bg-white">
+        <!-- Navbar Brand-->
+        <button class="btn btn-link btn-sm order-lg-0 me-0 me-lg-0" id="sidebarToggle" href="#!">
+            <i class="fas fa-bars" style="font-size:24px"></i></button>
+        <a class="navbar-brand" href="#ManagerDashbiardTopPage">
+            <img src="/ManagerDashboard/assets/img/image.png" height="50"
+                alt="TORA Logo" loading="lazy" />
+            <b>
+                for accounting
+            </b>
+        </a>
+        <!-- Sidebar Toggle-->
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-white" id="sidenavAccordion">
+                <div class="sb-sidenav-menu bg-white">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link text-dark" href="/accountant-employee-dashboard">
+                            <div class="sb-nav-link-icon text-dark"><i class="fas fa-tachometer-alt"></i></div>
+                            Accountant employee dashboard
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Personal</div>
+                        <a class="nav-link text-dark" href="/accountant-employee-dashboard/profile">
+                            <div class="sb-nav-link-icon text-dark"><i class='fas fa-user-alt'></i>
+                            </div>
+                            Profile
+                        </a>
+                        <a class="nav-link text-dark" href="/accountant-employee-dashboard/notifications">
+                            <div class="sb-nav-link-icon text-dark"><i class='fas fa-bell'></i>
+                            </div>
+                            Notifications
+                        </a>
+                        <a class="nav-link text-dark" href="/accountant-employee-dashboard/reminders">
+                            <div class="sb-nav-link-icon text-dark"><i class='far fa-calendar-alt'></i>
+                            </div>
+                            Reminders
+                        </a>
+                    </div>
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Work</div>
+                        <a class="nav-link text-dark" href="/accountant-employee-dashboard/sales-bills">
+                            <div class="sb-nav-link-icon text-dark"><i class='far fa-money-bill-alt'></i>
+                            </div>
+                            Add new sales bills
+                        </a>
+                        <a class="nav-link text-dark" href="/accountant-employee-dashboard/sales-return-bills">
+                            <div class="sb-nav-link-icon text-dark"><i class='far fa-money-bill-alt'></i>
+                            </div>
+                            Add new sales return bills
+                        </a>
+                        <a class="nav-link text-dark" href="/accountant-employee-dashboard/purchases-bills">
+                            <div class="sb-nav-link-icon text-dark"><i class='far fa-money-bill-alt'></i>
+                            </div>
+                            Add new purchases bills
+                        </a>
+                        <a class="nav-link text-dark" href="/accountant-employee-dashboard/purchases-return-bills">
+                            <div class="sb-nav-link-icon text-dark"><i class='far fa-money-bill-alt'></i>
+                            </div>
+                            Add new purchases return bills
+                        </a>
+                    </div>
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Review</div>
+                        <a class="nav-link text-dark" href="/accountant-employee-dashboard/all-bills">
+                            <div class="sb-nav-link-icon text-dark"><i class='far fa-money-bill-alt'></i>
+                            </div>
+                            All bills in this shop
+                        </a>
+                        <a class="nav-link text-dark"
+                            href="/accountant-employee-dashboard/stores">
+                            <div class="sb-nav-link-icon text-dark"><i class='fas fa-box-open'></i>
+                            </div>
+                            All products in this shop
+                        </a>
+                    </div>
+                </div>
+                <div style="background-color: #fff;">
+                    <div class="nav">
+                        <a class="nav-link text-dark" href="/logout">
+                            <div class="sb-nav-link-icon"><i class="fa fa-sign-out"></i>&ensp;Logout
+                            </div>
+                        </a>
+                    </div>
+                    <div class="sb-sidenav-footer text-dark">
+                        <div class="small text-dark">Logged in at:
+                            <br />
+                            
+                            <div id="logDate"></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <div id="AccountantEmployeeDashboard">
+            </div>
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Notifications</h1>
+                    <br />
+                    <br />
+                    <div class="container">
+                        <div class="col-lg-12">
+                            <div class="box shadow-sm rounded bg-white mb-4">
+                                <div class="box-title border-bottom p-3">
+                                    <h6 class="m-0">Recent</h6>
+                                </div>
+                                <div class="box-body p-0">
+                                    <div class="p-3 d-flex align-items-center border-bottom osahan-post-header">
+                                        <div class="dropdown-list-image mr-3"><img class="rounded-circle"
+                                                src="/ManagerDashboard/img/undraw_pic_profile_re_7g2h.svg" alt="" />
+                                        </div>
+                                        <div class="font-weight-bold mr-3">
+                                            <div class="text-truncate">Sales bill</div>
+                                            <div class="small">
+                                                You have been made a sales bill for Adnan kifri, in
+                                                25/07/2023 | 150$
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center border-bottom osahan-post-header">
+                                        <div class="dropdown-list-image mr-3"><img class="rounded-circle"
+                                                src="/ManagerDashboard/img/undraw_pic_profile_re_7g2h.svg" alt="" />
+                                        </div>
+                                        <div class="font-weight-bold mr-3">
+                                            <div class="text-truncate">Purchases bill</div>
+                                            <div class="small">
+                                                You have been made a purchases bill for Adham Al Jawad, in
+                                                25/07/2023 | 240$
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center border-bottom osahan-post-header">
+                                        <div class="dropdown-list-image mr-3"><img class="rounded-circle"
+                                                src="/ManagerDashboard/img/undraw_pic_profile_re_7g2h.svg" alt="" />
+                                        </div>
+                                        <div class="font-weight-bold mr-3">
+                                            <div class="text-truncate">Purchases return bill</div>
+                                            <div class="small">
+                                                You have been made a purchases return bill for Adham Al Jawa, in
+                                                25/07/2023 | 14$
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center border-bottom osahan-post-header">
+                                        <div class="dropdown-list-image mr-3"><img class="rounded-circle"
+                                                src="/ManagerDashboard/img/undraw_pic_profile_re_7g2h.svg" alt="" />
+                                        </div>
+                                        <div class="font-weight-bold mr-3">
+                                            <div class="text-truncate">Sales return bill</div>
+                                            <div class="small">
+                                                You have been made a sales return bill for Adnan kifri, in
+                                                25/07/2023 | 36$
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <div
+                class="flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+                <!-- Copyright -->
+                <div class="text-white mb-3 mb-md-0">
+                    Copyright © 2024. All rights reserved for Tora co.
+                </div>
+                <!-- Copyright -->
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="/EmployeeDashboard/js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

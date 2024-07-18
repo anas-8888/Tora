@@ -1,0 +1,33 @@
+.divider:after,
+.divider:before {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #eee;
+}
+
+.h-custom {
+      height: calc(100% - 73px);
+}
+
+@media (max-width: 450px) {
+      .h-custom {
+            height: 100%;
+      }
+}
+
+.navbar-dark .nav-item .nav-link {
+      color: #fff;
+}
+
+.navbar-dark .nav-item .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      border-radius: 0.25rem;
+      color: #fff;
+}
+
+.fa-li {
+      position: relative;
+      left: 0;
+}
